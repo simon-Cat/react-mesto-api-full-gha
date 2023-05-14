@@ -1,0 +1,15 @@
+.profile__heading {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 10px;
+  margin-bottom: 6px;
+}
+
+@media screen and (min-width: 768px) {
+  .profile__heading {
+    margin-bottom: 16px;
+    column-gap: 19px;
+    justify-content: flex-start;
+  }
+}

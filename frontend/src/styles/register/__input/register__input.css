@@ -1,0 +1,15 @@
+.register__input {
+    background-color: #000;
+    border-bottom: 2px solid #CCCCCC;
+    margin-bottom: 30px;
+    color: #CCCCCC;
+    padding-bottom: 13px;
+}
+
+.register__input::placeholder {
+    color: hsl(0, 0%, 100%);
+}
+
+.register__input:last-of-type {
+    margin-bottom: 216px;
+}

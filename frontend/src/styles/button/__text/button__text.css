@@ -1,0 +1,20 @@
+.button__text {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.button_disabled > .button__text {
+  color: #000000;
+}
+
+@media screen and (min-width: 1024px) {
+  .button__text {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

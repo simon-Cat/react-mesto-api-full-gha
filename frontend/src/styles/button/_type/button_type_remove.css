@@ -1,0 +1,11 @@
+.button_type_remove {
+  min-width: 18px;
+  height: 19px;
+  background-image: url(../../../images/delete-button.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

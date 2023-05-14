@@ -1,0 +1,15 @@
+.page__header {
+  margin: 0 0 42px;
+}
+
+@media screen and (min-width: 768px) {
+  .page__header {
+    margin: 0 25px 36px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .page__header {
+    margin: 0 auto 36px;
+  }
+}

@@ -1,0 +1,12 @@
+.infoTooltip__icon {
+  width: 120px;
+  height: 120px;
+  background-repeat: no-repeat;
+  margin-bottom: 32px;
+}
+
+@media screen and (max-width: 768px) {
+  .infoTooltip__icon {
+    margin-bottom: 40px;
+  }
+}

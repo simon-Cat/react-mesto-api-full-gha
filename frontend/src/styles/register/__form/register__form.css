@@ -1,0 +1,6 @@
+.register__form {
+    max-width: 358px;
+    width: 100%;
+    background-color: #000;
+    flex-grow: 0;
+}

@@ -1,0 +1,16 @@
+.content__places {
+  margin: 0 19px 48px;
+  min-height: 50vh;
+}
+
+@media screen and (min-width: 768px) {
+  .content__places {
+    margin: 0 25px 67px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .content__places {
+    margin: 0 auto 67px;
+  }
+}
