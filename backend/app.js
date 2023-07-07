@@ -13,9 +13,11 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 // connect mongodb
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
-  useNewUrlParser: true,
-}).then(() => console.log('BD Access!'));
+mongoose
+  .connect('mongodb://127.0.0.1:27017/mestodb', {
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('BD Access!'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -44,7 +46,9 @@ app.use((req, res, next) => {
 // centralized error handler
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
+  });
 
   next();
 });
