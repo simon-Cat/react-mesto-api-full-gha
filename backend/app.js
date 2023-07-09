@@ -24,6 +24,22 @@ app.use(express.json());
 
 app.use(requestLogger);
 
+// Массив доменов, с которых разрешены кросс-доменные запросы
+const allowedCors = [
+  'http://murtazaev-mesto.nomoredomains.monster',
+  'http://murtazaev-mesto.nomoredomains.monster',
+  'localhost:3000',
+];
+
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
+
 app.post('/signin', validateSignin(), login);
 
 app.post('/signup', validateSignup(), createUser);
