@@ -97,7 +97,7 @@ class Api {
 }
 
 const api = new Api({
-  baseURL: 'http://api.murtazaev-mesto.nomoredomains.monster',
+  baseURL: 'https://api.murtazaev-mesto.nomoredomains.monster',
   headers: {
     authorization: 'bc0c38b3-5c70-4885-820d-3321ddcd1680',
     'Content-Type': 'application/json',
