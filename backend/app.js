@@ -7,7 +7,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-// const cors = require('./middlewares/cors');
+const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -20,12 +20,20 @@ mongoose
   })
   .then(() => console.log('BD Access!'));
 
-// app.use(cors);
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(requestLogger);
+// cors
+app.options('*', cors({
+  origin: [
+    'https://murtazaev-mesto.nomoredomains.monster',
+    'http://murtazaev-mesto.nomoredomains.monster',
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 
 app.post('/signin', validateSignin(), login);
 
