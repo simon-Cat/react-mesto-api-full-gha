@@ -1,13 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const { validateSignin, validateSignup } = require('./utils/requestValidation');
 const { cards, users } = require('./routes');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('cors');
+
 
 const { PORT = 3000 } = process.env;
 
@@ -33,6 +35,7 @@ app.options('*', cors({
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
+  preflightContinue: true,
 }));
 
 app.post('/signin', validateSignin(), login);
