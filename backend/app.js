@@ -20,7 +20,7 @@ mongoose
   })
   .then(() => console.log('BD Access!'));
 
-app.use(cors());
+app.use(cors);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
