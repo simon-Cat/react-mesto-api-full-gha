@@ -26,7 +26,7 @@ app.use(requestLogger);
 
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'http://murtazaev-mesto.nomoredomains.monster',
+  'https://murtazaev-mesto.nomoredomains.monster',
   'http://murtazaev-mesto.nomoredomains.monster',
   'localhost:3000',
 ];
