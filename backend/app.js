@@ -26,16 +26,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(requestLogger);
-// cors
-app.options('*', cors({
+//cors
+app.use(cors({
   origin: [
     'https://murtazaev-mesto.nomoredomains.monster',
     'http://murtazaev-mesto.nomoredomains.monster',
-  ],
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: true,
+  ]
 }));
 
 app.post('/signin', validateSignin(), login);
