@@ -7,7 +7,11 @@ const {
 module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => {
+	const copyCards =  JSON.stringify(cards);
+	const reverseCards = JSON.parse(copyCards).reverse();
+	return res.send(reverseCards);
+    })
     .catch((err) => next(err));
 };
 
@@ -16,7 +20,10 @@ module.exports.createCard = (req, res, next) => {
   const ownerID = req.user._id;
 
   Card.create({ name, link, owner: ownerID })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => {
+	console.log('New Card is --- ' + card);
+	res.status(201).send(card)
+     })
     .catch((err) => next(err));
 };
 
@@ -54,8 +61,12 @@ module.exports.likeCard = (req, res, next) => {
 
   Card.findById(cardId)
     .orFail()
-    .then((card) => card.updateOne({ $addToSet: { likes: userId } }, { new: true })
-      .then(() => res.send({ message: 'Лайк' })))
+    .then((card) => card.updateOne({ $addToSet: { likes: userId } }, { new: true }))
+    .then(() => {
+      Card.findById(cardId)
+	.orFail()
+	.then((card) => res.send(card));
+    })
     // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof Error.CastError) {
@@ -74,9 +85,13 @@ module.exports.dislikeCard = (req, res, next) => {
 
   Card.findById(cardId)
     .orFail()
-    .then((card) => card.updateOne({ $pull: { likes: userId } }, { new: true })
-      .then(() => res.send({ message: 'Дизлайк' })))
-  // eslint-disable-next-line consistent-return
+    .then((card) => card.updateOne({ $pull: { likes: userId } }, { new: true }))
+    .then(() => {
+      Card.findById(cardId)
+	.orFail()
+	.then((card) => res.send(card));
+     })
+    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof Error.CastError) {
         next(new BadRequestError('Неверно указан id карточки'));

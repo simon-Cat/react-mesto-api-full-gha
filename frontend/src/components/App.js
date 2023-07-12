@@ -29,33 +29,12 @@ const App = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [statusRegistration, setStatusRegistration] = useState(null);
 
-  const location = useLocation();
-
-  const onLogin = (email, token) => {
-    localStorage.setItem("token", token);
-    setIsLoggedIn(true);
-    setUserEmail(email);
-  };
-
-  const onSignOut = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("token");
-  };
-
-  const onRegister = (res) => {
-    const typeOfToolTipPopup = res.error ? true : false;
-    setStatusRegistration(typeOfToolTipPopup);
-    setIsInfoTooltipPopupOpen(true);
-  };
-
   // effect
   useEffect(() => {
     if (isLoggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([user, cards]) => {
-          setCurrentUser((prevState) => {
-            return { ...prevState, ...user };
-          });
+          setCurrentUser(user);
           setCards(cards);
         })
         .catch((error) => {
@@ -70,12 +49,32 @@ const App = () => {
       auth
         .getContent(jwt)
         .then((res) => {
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
           setIsLoggedIn(true);
         })
         .catch((err) => console.log(err));
     }
   }, []);
+
+  const location = useLocation();
+
+  const onLogin = (email, token) => {
+    localStorage.setItem("token", token);
+    setIsLoggedIn(true);
+    setUserEmail(email);
+  };
+
+  const onSignOut = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("token");
+  };
+
+  const onRegister = (res) => {
+    //const typeOfToolTipPopup = res.error ? true : false;
+    const typeOfToolTipPopup = res.err ? true : false;
+    setStatusRegistration(typeOfToolTipPopup);
+    setIsInfoTooltipPopupOpen(true);
+  };
 
   // обработчик клика изменения аватара
   const handleEditAvatarClick = () => {
@@ -95,7 +94,7 @@ const App = () => {
   };
   // обработчик лайка
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((like) => like._id === currentUser._id);
+    const isLiked = card.likes.some((like) => (like._id === currentUser._id) || (like === currentUser._id));
 
     if (!isLiked) {
       api
@@ -165,7 +164,9 @@ const App = () => {
   const handleAddPlaceSubmit = (newPlace) => {
     api
       .sendNewCard(newPlace)
-      .then((newCard) => setCards([newCard, ...cards]))
+      .then((newCard) => setCards(cards => {
+	return [newCard, ...cards];
+      }))
       .catch((error) => {
         console.log(`Ошибка - ${error}`);
       });

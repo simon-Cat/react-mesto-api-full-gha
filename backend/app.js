@@ -30,7 +30,7 @@ app.use(requestLogger);
 app.use(cors({
   origin: [
     'https://murtazaev-mesto.nomoredomains.monster',
-    'http://murtazaev-mesto.nomoredomains.monster',
+    'http://murtazaev-mesto.nomoredomains.monster'
   ]
 }));
 
@@ -57,6 +57,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
+    err,
     message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
   });
 

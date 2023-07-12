@@ -13,7 +13,7 @@ const Main = ({
 }) => {
   // context
   const currentUser = useContext(CurrentUserContext);
-
+  
   return (
     <main className="content">
       <div className="content__profile profile">
@@ -44,7 +44,7 @@ const Main = ({
       </div>
       <section className="content__places places">
         <ul className="places__list">
-          {cards.map((card) => (
+          {cards.length && cards.map((card) => (
             <Card
               card={card}
               onCardClick={onCardClick}

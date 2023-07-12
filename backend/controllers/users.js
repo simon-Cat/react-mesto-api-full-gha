@@ -33,11 +33,12 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.getMeInfo = (req, res, next) => {
   const userId = req.user._id;
-
+  
   User.findById(userId)
     .orFail()
     .then((user) => {
-      res.send({ data: user });
+	console.log('user is ---- ' + user._id);
+      res.send(user);
     })
     .catch((err) => {
       if (err instanceof Error.CastError) {
@@ -85,9 +86,12 @@ module.exports.login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, 'some-super-secret-key', { expiresIn: '7d' });
-      res
-        .cookie('jwt', token, { httpOnly: true })
-        .end();
+      	//это оригинал
+	//res
+        //.cookie('jwt', token, { httpOnly: true })
+        //.end();
+	//а это пробуем
+	res.send({token})
     })
     .catch((err) => next(err));
 };
@@ -101,12 +105,7 @@ module.exports.updateUserData = (req, res, next) => {
     .then((user) => {
       user.updateOne({ name, about }, { new: true, runValidators: true })
         .then(() => {
-          res.send({
-            data: {
-              name,
-              about,
-            },
-          });
+          res.send({ name, about });
         });
     })
     .catch((err) => {
@@ -120,8 +119,8 @@ module.exports.updateUserData = (req, res, next) => {
     });
 };
 
-module.exports.updateUserAvatar = (req, res, next) => {
-  const userId = '6653ce38c33ef67413f9370e';
+module.exports.updateUserAvatar = (req, res, next) => { 
+  const userId = req.user._id;
   const { avatar } = req.body;
 
   User.findById(userId)
@@ -129,11 +128,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
     .then((user) => {
       user.updateOne({ avatar }, { new: true, runValidators: true })
         .then(() => {
-          res.send({
-            data: {
-              avatar,
-            },
-          });
+          res.send({ avatar });
         });
     })
     .catch((err) => {

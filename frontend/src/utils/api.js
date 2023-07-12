@@ -1,6 +1,10 @@
 // API Class
+// token
+const jwt = localStorage.getItem("token") || 'No Token';
+//делаю экспорт по умолчанию
 class Api {
-  constructor({ baseURL, headers }) {
+//к baseURL добавил URL api по - умолчанию
+  constructor({ baseURL='https://api.murtazaev-mesto.nomoredomains.monster', headers }) {
     this.url = baseURL;
     this.headers = headers;
   }
@@ -98,8 +102,9 @@ class Api {
 
 const api = new Api({
   baseURL: 'https://api.murtazaev-mesto.nomoredomains.monster',
-  headers: {
-    authorization: 'bc0c38b3-5c70-4885-820d-3321ddcd1680',
+    headers: {
+    //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFkNGExY2NkN2JhMTdjZWNhNjljOTQiLCJpYXQiOjE2ODkwOTE5ODQsImV4cCI6MTY4OTY5Njc4NH0.AH5-BxRB9hW-Wa-xyVUsA7weT0-lTToW4aFeoHBEQB0',
+    Authorization: `Bearer ${jwt}`,
     'Content-Type': 'application/json',
   },
 });
