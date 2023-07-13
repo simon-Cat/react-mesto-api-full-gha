@@ -32,7 +32,13 @@ const App = () => {
   // effect
   useEffect(() => {
     if (isLoggedIn) {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
+      Promise.all([api.getUserInfo({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }), api.getInitialCards({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      })])
         .then(([user, cards]) => {
           setCurrentUser(user);
           setCards(cards);
@@ -98,7 +104,10 @@ const App = () => {
 
     if (!isLiked) {
       api
-        .sendLike(card._id, card.likes)
+        .sendLike(card._id, card.likes, {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        })
         .then((newCard) => {
           setCards((state) =>
             state.map((c) => (c._id === card._id ? newCard : c))
@@ -109,7 +118,10 @@ const App = () => {
         });
     } else {
       api
-        .deleteLike(card._id)
+        .deleteLike(card._id, {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        })
         .then((newCard) => {
           setCards((state) =>
             state.map((c) => (c._id === card._id ? newCard : c))
@@ -123,7 +135,10 @@ const App = () => {
   // обработчик удаления карточки
   const handleCardDelete = (card) => {
     api
-      .deleteCard(card._id)
+      .deleteCard(card._id, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      })
       .then(() => {
         setCards((state) => state.filter((s) => s._id !== card._id));
       })
@@ -134,7 +149,10 @@ const App = () => {
   // обработчик обновления данных пользователя
   const handleUpdateProfile = ({ name, about }) => {
     api
-      .updateProfileInfo(name, about)
+      .updateProfileInfo(name, about, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      })
       .then((user) => {
         setCurrentUser((prev) => {
           return { ...prev, ...user };
@@ -148,7 +166,10 @@ const App = () => {
   // обработчик обновления аватарки
   const handleUpdateAvatar = ({ avatar }) => {
     api
-      .updateProfileAvatar(avatar)
+      .updateProfileAvatar(avatar, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      })
       .then((user) =>
         setCurrentUser((prevState) => {
           return { ...prevState, ...user };
@@ -163,7 +184,10 @@ const App = () => {
   // новых карточек
   const handleAddPlaceSubmit = (newPlace) => {
     api
-      .sendNewCard(newPlace)
+      .sendNewCard(newPlace, {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      })
       .then((newCard) => setCards(cards => {
 	return [newCard, ...cards];
       }))

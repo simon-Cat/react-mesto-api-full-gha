@@ -10,8 +10,7 @@ const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
@@ -29,8 +28,9 @@ app.use(requestLogger);
 //cors
 app.use(cors({
   origin: [
-    'https://murtazaev-mesto.nomoredomains.monster',
-    'http://murtazaev-mesto.nomoredomains.monster'
+    // 'https://murtazaev-mesto.nomoredomains.monster',
+    // 'http://murtazaev-mesto.nomoredomains.monster'
+    'http://localhost:3000'
   ]
 }));
 

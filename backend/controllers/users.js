@@ -33,7 +33,7 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.getMeInfo = (req, res, next) => {
   const userId = req.user._id;
-  
+
   User.findById(userId)
     .orFail()
     .then((user) => {
@@ -81,17 +81,13 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
+  console.log('Login');
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, 'some-super-secret-key', { expiresIn: '7d' });
-      	//это оригинал
-	//res
-        //.cookie('jwt', token, { httpOnly: true })
-        //.end();
-	//а это пробуем
-	res.send({token})
+      res.send({ token });
     })
     .catch((err) => next(err));
 };
@@ -119,7 +115,7 @@ module.exports.updateUserData = (req, res, next) => {
     });
 };
 
-module.exports.updateUserAvatar = (req, res, next) => { 
+module.exports.updateUserAvatar = (req, res, next) => {
   const userId = req.user._id;
   const { avatar } = req.body;
 

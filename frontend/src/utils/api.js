@@ -1,10 +1,7 @@
 // API Class
-// token
-const jwt = localStorage.getItem("token") || 'No Token';
-//делаю экспорт по умолчанию
 class Api {
 //к baseURL добавил URL api по - умолчанию
-  constructor({ baseURL='https://api.murtazaev-mesto.nomoredomains.monster', headers }) {
+  constructor({ baseURL, headers }) {
     this.url = baseURL;
     this.headers = headers;
   }
@@ -19,27 +16,27 @@ class Api {
   }
 
   // получить данные пользователя
-  getUserInfo() {
+  getUserInfo(headers) {
     return fetch(`${this.url}/users/me`, {
       method: 'GET',
-      headers: this.headers,
+      headers: headers,
     }).then((res) => {
       return this._checkResponseStatus(res);
     });
   }
 
   // получение начальных карточек мест
-  getInitialCards() {
-    return fetch(`${this.url}/cards`, { headers: this.headers }).then((res) => {
+  getInitialCards(headers) {
+    return fetch(`${this.url}/cards`, { headers: headers }).then((res) => {
       return this._checkResponseStatus(res);
     });
   }
 
   // обновить данные порфиля
-  updateProfileInfo(name, about) {
+  updateProfileInfo(name, about, headers) {
     return fetch(`${this.url}/users/me`, {
       method: 'PATCH',
-      headers: this.headers,
+      headers: headers,
       body: JSON.stringify({ name, about }),
     }).then((res) => {
       return this._checkResponseStatus(res);
@@ -47,10 +44,10 @@ class Api {
   }
 
   // обновить аватарку
-  updateProfileAvatar(avatar) {
+  updateProfileAvatar(avatar, headers) {
     return fetch(`${this.url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this.headers,
+      headers: headers,
       body: JSON.stringify({ avatar }),
     }).then((res) => {
       return this._checkResponseStatus(res);
@@ -58,10 +55,10 @@ class Api {
   }
 
   // добавить новую краточку
-  sendNewCard({ name, link }) {
+  sendNewCard({ name, link }, headers) {
     return fetch(`${this.url}/cards`, {
       method: 'POST',
-      headers: this.headers,
+      headers: headers,
       body: JSON.stringify({ name, link }),
     }).then((res) => {
       return this._checkResponseStatus(res);
@@ -69,20 +66,20 @@ class Api {
   }
 
   // удалить карточку
-  deleteCard(id) {
+  deleteCard(id, headers) {
     return fetch(`${this.url}/cards/${id}`, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: headers,
     }).then((res) => {
       return this._checkResponseStatus(res);
     });
   }
 
   // отправить лайк
-  sendLike(id, likes) {
+  sendLike(id, likes, headers) {
     return fetch(`${this.url}/cards/${id}/likes`, {
       method: 'PUT',
-      headers: this.headers,
+      headers: headers,
       body: JSON.stringify({ likes }),
     }).then((res) => {
       return this._checkResponseStatus(res);
@@ -90,10 +87,10 @@ class Api {
   }
 
   // удалить лайк
-  deleteLike(id) {
+  deleteLike(id, headers) {
     return fetch(`${this.url}/cards/${id}/likes`, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: headers,
     }).then((res) => {
       return this._checkResponseStatus(res);
     });
@@ -101,12 +98,8 @@ class Api {
 }
 
 const api = new Api({
-  baseURL: 'https://api.murtazaev-mesto.nomoredomains.monster',
-    headers: {
-    //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFkNGExY2NkN2JhMTdjZWNhNjljOTQiLCJpYXQiOjE2ODkwOTE5ODQsImV4cCI6MTY4OTY5Njc4NH0.AH5-BxRB9hW-Wa-xyVUsA7weT0-lTToW4aFeoHBEQB0',
-    Authorization: `Bearer ${jwt}`,
-    'Content-Type': 'application/json',
-  },
+  // baseURL: 'https://api.murtazaev-mesto.nomoredomains.monster',
+  baseURL: 'http://localhost:3001',
 });
 
 export default api;
