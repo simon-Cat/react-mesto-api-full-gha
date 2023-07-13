@@ -1,16 +1,16 @@
 const { Error } = require('mongoose');
 const Card = require('../models/card');
 const {
-  BadRequestError, NotFoundError, ForbiddenError,
+  NotFoundError, ForbiddenError,
 } = require('../errors');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
     .then((cards) => {
-	const copyCards =  JSON.stringify(cards);
-	const reverseCards = JSON.parse(copyCards).reverse();
-	return res.send(reverseCards);
+      const copyCards = JSON.stringify(cards);
+      const reverseCards = JSON.parse(copyCards).reverse();
+      return res.send(reverseCards);
     })
     .catch((err) => next(err));
 };
@@ -21,8 +21,7 @@ module.exports.createCard = (req, res, next) => {
 
   Card.create({ name, link, owner: ownerID })
     .then((card) => {
-      console.log(`New Card is --- ${  card}`);
-      res.status(201).send(card)
+      res.status(201).send(card);
     })
     .catch((err) => next(err));
 };
@@ -45,9 +44,7 @@ module.exports.removeCard = (req, res, next) => {
     })
     // eslint-disable-next-line consistent-return
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id карточки'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Карточка с id ${cardId} не найдена`));
       } else {
         next(err);
@@ -64,14 +61,12 @@ module.exports.likeCard = (req, res, next) => {
     .then((card) => card.updateOne({ $addToSet: { likes: userId } }, { new: true }))
     .then(() => {
       Card.findById(cardId)
-	.orFail()
-	.then((card) => res.send(card));
+        .orFail()
+        .then((card) => res.send(card));
     })
     // eslint-disable-next-line consistent-return
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id карточки'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Карточка с id ${cardId} не найдена`));
       } else {
         next(err);
@@ -88,14 +83,12 @@ module.exports.dislikeCard = (req, res, next) => {
     .then((card) => card.updateOne({ $pull: { likes: userId } }, { new: true }))
     .then(() => {
       Card.findById(cardId)
-	.orFail()
-	.then((card) => res.send(card));
-     })
+        .orFail()
+        .then((card) => res.send(card));
+    })
     // eslint-disable-next-line consistent-return
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id карточки'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Карточка с id ${cardId} не найдена`));
       } else {
         next(err);

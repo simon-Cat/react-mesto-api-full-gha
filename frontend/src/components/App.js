@@ -76,7 +76,6 @@ const App = () => {
   };
 
   const onRegister = (res) => {
-    //const typeOfToolTipPopup = res.error ? true : false;
     const typeOfToolTipPopup = res.err ? true : false;
     setStatusRegistration(typeOfToolTipPopup);
     setIsInfoTooltipPopupOpen(true);

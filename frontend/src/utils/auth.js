@@ -1,5 +1,4 @@
-// export const BASE_URL = "https://api.murtazaev-mesto.nomoredomains.monster";
-export const BASE_URL = 'http://localhost:3001';
+export const BASE_URL = "https://api.murtazaev-mesto.nomoredomains.monster";
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {

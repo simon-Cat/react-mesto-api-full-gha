@@ -10,7 +10,7 @@ const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
@@ -25,14 +25,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(requestLogger);
-//cors
+// cors
 app.use(cors({
   origin: [
-    // 'https://murtazaev-mesto.nomoredomains.monster',
-    // 'http://murtazaev-mesto.nomoredomains.monster'
-    'http://localhost:3000'
-  ]
+    'https://murtazaev-mesto.nomoredomains.monster',
+    'http://murtazaev-mesto.nomoredomains.monster',
+  ],
 }));
+
+// crash-test
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', validateSignin(), login);
 

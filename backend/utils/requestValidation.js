@@ -30,26 +30,26 @@ module.exports.validateCreateCard = () => celebrate({
 
 module.exports.validateSetLikeToCard = () => celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    cardId: Joi.string().hex().required(),
+    cardId: Joi.string().hex().length(24).required(),
   }),
 });
 
 module.exports.validateRemoveLikeFromCard = () => celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    cardId: Joi.string().hex().required(),
+    cardId: Joi.string().hex().length(24).required(),
   }),
 });
 
 module.exports.validateRemoveCard = () => celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    cardId: Joi.string().hex().required(),
+    cardId: Joi.string().hex().length(24).required(),
   }),
 });
 
 // Users
 module.exports.validateGetUser = () => celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    userId: Joi.string().hex().required(),
+    userId: Joi.string().hex().length(24).required(),
   }),
 });
 

@@ -1,6 +1,5 @@
 // API Class
 class Api {
-//к baseURL добавил URL api по - умолчанию
   constructor({ baseURL, headers }) {
     this.url = baseURL;
     this.headers = headers;
@@ -98,8 +97,7 @@ class Api {
 }
 
 const api = new Api({
-  // baseURL: 'https://api.murtazaev-mesto.nomoredomains.monster',
-  baseURL: 'http://localhost:3001',
+  baseURL: 'https://api.murtazaev-mesto.nomoredomains.monster',
 });
 
 export default api;

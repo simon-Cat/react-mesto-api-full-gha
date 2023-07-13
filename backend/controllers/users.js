@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { BadRequestError, NotFoundError, ConflictError } = require('../errors');
+const { NotFoundError, ConflictError } = require('../errors');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -21,9 +21,7 @@ module.exports.getUser = (req, res, next) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id пользователя'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь с id ${userId}с не найден`));
       } else {
         next(err);
@@ -37,13 +35,10 @@ module.exports.getMeInfo = (req, res, next) => {
   User.findById(userId)
     .orFail()
     .then((user) => {
-	console.log('user is ---- ' + user._id);
       res.send(user);
     })
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id пользователя'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь с id ${userId}с не найден`));
       } else {
         next(err);
@@ -61,7 +56,7 @@ module.exports.createUser = (req, res, next) => {
       name, about, avatar, email, password: hash,
     })
       .then((user) => {
-       res.status(201).send({
+        res.status(201).send({
           data: {
             _id: user._id,
             name: user.name,
@@ -81,7 +76,6 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-  console.log('Login');
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
@@ -105,9 +99,7 @@ module.exports.updateUserData = (req, res, next) => {
         });
     })
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id пользователя'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь с id ${userId}с не найден`));
       } else {
         next(err);
@@ -128,9 +120,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
         });
     })
     .catch((err) => {
-      if (err instanceof Error.CastError) {
-        next(new BadRequestError('Неверно указан id пользователя'));
-      } else if (err instanceof Error.DocumentNotFoundError) {
+      if (err instanceof Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь с id ${userId}с не найден`));
       } else {
         next(err);
