@@ -4,10 +4,3 @@
 
 Адрес репозитория: https://github.com/simon-Cat/react-mesto-api-full-gha
 
-## Ссылки на проект
-
-IP-адрес 158.160.69.86
-
-Frontend https://murtazaev-mesto.nomoredomains.monster
-
-Backend https://api.murtazaev-mesto.nomoredomains.monster
